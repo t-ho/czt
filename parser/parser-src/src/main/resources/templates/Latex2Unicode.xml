@@ -1670,6 +1670,11 @@ USAGE   = "axiom" | "frule" | "grule" | "rule"
           addSpace_ = true;
           return result(LatexSym.PARENTS, result);
         }
+  "\\czttheoremlabel" {IGNORE}* "{" {NAME} "}"
+  		{
+  		  //TODO: 
+  		  /* ignore this command*/ 
+  		}
   {COMMAND}
         {
           String result = addSpace();
