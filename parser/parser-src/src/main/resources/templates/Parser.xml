@@ -2725,6 +2725,9 @@ terminal LocInfo
         LPAREN, RPAREN, LSQUARE, RSQUARE, LBIND, RBIND,
         LDATA, RDATA, LBRACE, RBRACE,
         BAR, ANDALSO, CONJECTURE, AND, OR, IMP, IFF, NOT,
+        <add:z>
+        CONJECTURE_EXT,
+        </add:z>
         ALL, EXI, CROSS, POWER,
         SLASH, EQUALS, MEM, COLON, SEMICOLON, COMMA, DOT, SPOT, ZHIDE,
         ZPROJ, ZCOMP, ZPIPE, NL,
@@ -4129,6 +4132,15 @@ unboxedParagraphItem ::=
            RESULT = factory_.createConjPara(ofp, p);
            addLocAnn(RESULT, getLocation(getLocation(ofpleft, ofpright), getLocation(p)));
         :}
+        <add:z>
+        |
+        optFormalParameters:ofp CONJECTURE_EXT:c predicate:p
+        {:
+           // unnamed conjectures in Unicode, as in the Z standard.
+           RESULT = factory_.createConjPara(ofp, p);
+           addLocAnn(RESULT, getLocation(getLocation(ofpleft, ofpright), getLocation(p)));
+        :}
+        </add:z>
         |
         operatorTemplate:ot
         {:
@@ -4160,6 +4172,13 @@ conjecture ::=
         {:
           RESULT = true;
         :}
+		<add:z>
+		|
+        CONJECTURE_EXT:c
+        {:
+          RESULT = true;
+        :}
+		</add:z>
         <add:zeves>
         |
         // empty is fine in Z/EVES

@@ -64,6 +64,7 @@ public enum ZKeyword
   LISTARG(",,", NewlineCategory.BOTH),
   EQUALS(ZString.EQUALS, NewlineCategory.BOTH),
   CONJECTURE(ZString.CONJECTURE, NewlineCategory.BOTH),
+  CONJECTURE_EXT(ZString.CONJECTURE_EXT, NewlineCategory.BOTH),
   ALL(ZString.ALL, NewlineCategory.AFTER),
   SPOT(ZString.SPOT, NewlineCategory.BOTH),
   EXI(ZString.EXI, NewlineCategory.AFTER),

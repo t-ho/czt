@@ -48,6 +48,7 @@ public interface ZString
   String END = ENDCHAR;
   String NL = NLCHAR;
   String CONJECTURE = VDASH + "?";
+  String CONJECTURE_EXT = VDASH;
   String EXIONE = EXI + SUB1;
 
   String ELSE = "else";
