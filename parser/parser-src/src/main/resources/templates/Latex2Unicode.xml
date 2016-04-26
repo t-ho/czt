@@ -954,6 +954,16 @@ USAGE   = "axiom" | "frule" | "grule" | "rule"
           return result(ZString.ZED);
         }
 */
+  <add:z>
+  "\\begin" {IGNORE}* "{" / "lemma}"
+        {
+          yybegin(ZED);
+          assert ! addSpace_;
+          begin("lemma");
+          braceStack_.push(BraceType.THM_NAME);
+          return result(ZString.ZED);
+        }
+  </add:z>
 <add:pattern>
   "\\begin" {IGNORE}* "{zedjoker}" {IGNORE}* "{"
         {
@@ -1274,6 +1284,16 @@ USAGE   = "axiom" | "frule" | "grule" | "rule"
           String result = addSpace() + ZString.END;
           return result(LatexSym.END, result);
         }
+<add:z>
+  "\\end" {IGNORE}* "{lemma}"
+        {
+          end("lemma");
+          yybegin(YYINITIAL);
+          catchingThmName_ = false;
+          String result = addSpace() + ZString.END;
+          return result(LatexSym.END, result);
+        }
+</add:z>
   "\\end" {IGNORE}* "{axdef}"
         {
           end("axdef");
@@ -1670,11 +1690,18 @@ USAGE   = "axiom" | "frule" | "grule" | "rule"
           addSpace_ = true;
           return result(LatexSym.PARENTS, result);
         }
+<add:z>
   "\\czttheoremlabel" {IGNORE}* "{" {NAME} "}"
   		{
   		  //TODO: 
-  		  /* ignore this command*/ 
+  		  /* ignore this command */ 
   		}
+  "\\cztlemmalabel" {IGNORE}* "{" {NAME} "}"
+  		{
+  			//TODO:
+  			/*ignore this command */
+  		}
+</add:z>
   {COMMAND}
         {
           String result = addSpace();

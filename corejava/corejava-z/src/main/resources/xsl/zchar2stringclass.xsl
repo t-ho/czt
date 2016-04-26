@@ -64,6 +64,7 @@ public interface ZString
   String SECTION = "section";
   String THEN = "then";
   String THEOREM = "theorem";
+  String LEMMA = "lemma";
   String TRUE = "true";
   String DEFEQUAL = "==";
   String DEFFREE = "::=";

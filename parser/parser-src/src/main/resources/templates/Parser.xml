@@ -2731,7 +2731,10 @@ terminal LocInfo
         SECTION, PARENTS, TRUE, FALSE, LET, IF, THEN, ELSE, ZPRE,
         RELATION, FUNCTION, GENERIC, LEFTASSOC, RIGHTASSOC, LISTARG, ARG,
         DEFFREE, DEFEQUAL, EXIONE,
-        END, AX, SCH, GENSCH, GENAX, ZED, THEOREM,
+        END, AX, SCH, GENSCH, GENAX, ZED, THEOREM, 
+       	<add:z>
+        LEMMA,
+       	</add:z>	 
 
         //ZSTATE, ZSTINIT, ZSTFIN, ZASTATE, ZASTINIT, 
         //ZCSTATE, ZCSTINIT, ZRETRIEVE, ZASTFIN, ZCSTFIN,
@@ -4092,6 +4095,33 @@ unboxedParagraphItem ::=
                                    getLocation(nleft, nright));
            }           
         :}
+        <add:z>
+        |
+       	LEMMA 
+        name:n optNL optFormalParameters:ofp
+        conjecture:c predicate:p
+
+        // WARNING: ConjPara within ZED environment cannot accept ability (!) Only within THEOREM environment!
+        {:
+           // named conjectures in Unicode are a CZT extension of the Z standard.
+           RESULT = factory_.createConjPara(ofp, p);
+           RESULT.getAnns().add(n); // add it as an annotation for now.
+           LocInfo loc = getLocation(getLocation(ofpleft, ofpright), getLocation(p));
+           addLocAnn(RESULT, loc);
+           
+           try
+           {
+             thmTable_.add((ConjPara)RESULT);
+           }
+           catch (ThmTable.ThmTableException e)
+           {
+             //final Symbol token = new Symbol(Sym.ZED, nleft, nright);
+               parser.report_error(ZParseMessage.MSG_CANNOT_ADD_THM,
+                                   new Object[] { e.getMessage() },
+                                   getLocation(nleft, nright));
+           }           
+        :}
+        </add:z>
         |
         optFormalParameters:ofp CONJECTURE:c predicate:p
         {:
