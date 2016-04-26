@@ -1705,6 +1705,9 @@ USAGE   = "axiom" | "frule" | "grule" | "rule"
   {COMMAND}
         {
           String result = addSpace();
+          <add:z>
+          result += ZString.SPACE;
+          </add:z>
           boolean spaces = braceStack_.empty();
           String zstring = toUnicode(yytext(), spaces);
           if (zstring != null) {
