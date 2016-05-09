@@ -684,6 +684,10 @@ import net.sourceforge.czt.zeves.util.ZEvesString;
      * get "Teste" as the name (!)
      */
     THM_NAME,
+    
+    <add:z>
+    PROOF,
+    </add:z>
 
     <add:zeves>
 
@@ -759,6 +763,11 @@ TEXT = {NOT_SPECIAL}*
 NOT_LB = !(![^] | "{")
 NAME =   {NOT_LB}*
        | {NOT_LB}* "{" {NOT_LB}* "}" {NOT_LB}*
+
+<add:z>
+NOT_AMPERSAND = !(![^] | "&amp;")
+JUSTIFICATION = {NOT_AMPERSAND}*
+</add:z>
 
 //ZSTATE = "zstate" | "zstinit" | "zstfin" | "zastate" | "zcstate" | "zastinit" | "zcstinit" |
 //         "zretrievein" | "zretrieveout" | "zretrieve" | "zastfin" | "zcstfin" |
@@ -963,6 +972,14 @@ USAGE   = "axiom" | "frule" | "grule" | "rule"
           braceStack_.push(BraceType.THM_NAME);
           return result(ZString.ZED);
         }
+  "\\begin" {IGNORE}* "{" / "equationalproof}"
+  		{
+  			yybegin(ZED);
+  			assert ! addSpace_;
+  			begin("equationalproof");
+  			braceStack_.push(BraceType.PROOF);
+  			return result(ZString.ZED);
+  		}
   </add:z>
 <add:pattern>
   "\\begin" {IGNORE}* "{zedjoker}" {IGNORE}* "{"
@@ -1290,6 +1307,13 @@ USAGE   = "axiom" | "frule" | "grule" | "rule"
           end("lemma");
           yybegin(YYINITIAL);
           catchingThmName_ = false;
+          String result = addSpace() + ZString.END;
+          return result(LatexSym.END, result);
+        }
+  "\\end" {IGNORE}* "{equationalproof}"
+        {
+          end("equationalproof");
+          yybegin(YYINITIAL);
           String result = addSpace() + ZString.END;
           return result(LatexSym.END, result);
         }
@@ -1701,6 +1725,11 @@ USAGE   = "axiom" | "frule" | "grule" | "rule"
   			//TODO:
   			/*ignore this command */
   		}
+  "&amp;" {JUSTIFICATION} "\\\\"
+  		{
+  			//TODO:
+  			/* ignore this justification */
+  		}
 </add:z>
   {COMMAND}
         {
@@ -1759,6 +1788,12 @@ USAGE   = "axiom" | "frule" | "grule" | "rule"
             catchingThmName_ = true;
             result += ZString.SPACE;
           }
+          <add:z>
+          else if (brace.equals(BraceType.PROOF))
+          {
+            result += ZString.SPACE;
+          }
+          </add:z>
           // this is to flag that "thmName" catching has finished.
           else if (brace.equals(BraceType.BRACE) &amp;&amp; catchingThmName_)
           {

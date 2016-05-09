@@ -66,6 +66,7 @@ public interface ZString
   String THEN = "then";
   String THEOREM = "theorem";
   String LEMMA = "lemma";
+  String EQUATIONALPROOF = "equationalproof";
   String TRUE = "true";
   String DEFEQUAL = "==";
   String DEFFREE = "::=";

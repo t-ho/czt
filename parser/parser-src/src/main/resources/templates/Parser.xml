@@ -2736,7 +2736,7 @@ terminal LocInfo
         DEFFREE, DEFEQUAL, EXIONE,
         END, AX, SCH, GENSCH, GENAX, ZED, THEOREM, 
        	<add:z>
-        LEMMA,
+        LEMMA, EQUATIONALPROOF,
        	</add:z>	 
 
         //ZSTATE, ZSTINIT, ZSTFIN, ZASTATE, ZASTINIT, 
@@ -4039,6 +4039,13 @@ unboxedParagraphItem ::=
         <add:zeves>
         //optZNote:znote
         </add:zeves>
+        <add:z>
+        EQUATIONALPROOF predicate:p1
+        {:
+           RESULT = null;
+        :}
+        |
+        </add:z>
         basicTypeDefinition:btd
         {: RESULT = btd; :}
         |
