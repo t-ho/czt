@@ -50,6 +50,7 @@ public enum ZKeyword
   THEOREM(ZString.THEOREM, NewlineCategory.NEITHER),
   LEMMA(ZString.LEMMA, NewlineCategory.NEITHER),
   EQUATIONALPROOF(ZString.EQUATIONALPROOF, NewlineCategory.NEITHER),
+  NUMBEREDPROOF(ZString.NUMBEREDPROOF, NewlineCategory.NEITHER),
   TRUE("true", NewlineCategory.NEITHER),
   COLON(ZString.COLON, NewlineCategory.BOTH),
   DEFEQUAL("==", NewlineCategory.BOTH),

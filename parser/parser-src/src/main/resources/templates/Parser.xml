@@ -2736,7 +2736,7 @@ terminal LocInfo
         DEFFREE, DEFEQUAL, EXIONE,
         END, AX, SCH, GENSCH, GENAX, ZED, THEOREM, 
        	<add:z>
-        LEMMA, EQUATIONALPROOF,
+        LEMMA, EQUATIONALPROOF, NUMBEREDPROOF,
        	</add:z>	 
 
         //ZSTATE, ZSTINIT, ZSTFIN, ZASTATE, ZASTINIT, 
@@ -4041,6 +4041,11 @@ unboxedParagraphItem ::=
         </add:zeves>
         <add:z>
         EQUATIONALPROOF predicate:p1
+        {:
+           RESULT = null;
+        :}
+        |
+        NUMBEREDPROOF predicate:p1
         {:
            RESULT = null;
         :}

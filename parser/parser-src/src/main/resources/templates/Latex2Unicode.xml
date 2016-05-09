@@ -767,6 +767,7 @@ NAME =   {NOT_LB}*
 <add:z>
 NOT_AMPERSAND = !(![^] | "&amp;")
 JUSTIFICATION = {NOT_AMPERSAND}*
+DIGIT = [0-9]
 </add:z>
 
 //ZSTATE = "zstate" | "zstinit" | "zstfin" | "zastate" | "zcstate" | "zastinit" | "zcstinit" |
@@ -977,6 +978,14 @@ USAGE   = "axiom" | "frule" | "grule" | "rule"
   			yybegin(ZED);
   			assert ! addSpace_;
   			begin("equationalproof");
+  			braceStack_.push(BraceType.PROOF);
+  			return result(ZString.ZED);
+  		}
+  "\\begin" {IGNORE}* "{" / "numberedproof}"
+  		{
+  			yybegin(ZED);
+  			assert ! addSpace_;
+  			begin("numberedproof");
   			braceStack_.push(BraceType.PROOF);
   			return result(ZString.ZED);
   		}
@@ -1313,6 +1322,13 @@ USAGE   = "axiom" | "frule" | "grule" | "rule"
   "\\end" {IGNORE}* "{equationalproof}"
         {
           end("equationalproof");
+          yybegin(YYINITIAL);
+          String result = addSpace() + ZString.END;
+          return result(LatexSym.END, result);
+        }
+  "\\end" {IGNORE}* "{numberedproof}"
+        {
+          end("numberedproof");
           yybegin(YYINITIAL);
           String result = addSpace() + ZString.END;
           return result(LatexSym.END, result);
@@ -1724,6 +1740,19 @@ USAGE   = "axiom" | "frule" | "grule" | "rule"
   		{
   			//TODO:
   			/*ignore this command */
+  		}
+  ^ {WS}* {DIGIT}+ {WS}* "&amp;"
+  		{
+  			//TODO: numberedproof
+  		}
+  "\\\\" {WS}* "&amp;"
+  		{
+  			//TODO: numberedproof: multiple line predicate
+  		}
+  "&amp;" {JUSTIFICATION} "\\\\" {WS}* {DIGIT}+ {WS}* "&amp;"
+  		{
+  			String result = addSpace();
+  			return result(result + ZString.SEMI);
   		}
   "&amp;" {JUSTIFICATION} "\\\\"
   		{

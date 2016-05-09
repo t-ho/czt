@@ -67,6 +67,7 @@ public interface ZString
   String THEOREM = "theorem";
   String LEMMA = "lemma";
   String EQUATIONALPROOF = "equationalproof";
+  String NUMBEREDPROOF = "numberedproof";
   String TRUE = "true";
   String DEFEQUAL = "==";
   String DEFFREE = "::=";
