@@ -4040,12 +4040,12 @@ unboxedParagraphItem ::=
         //optZNote:znote
         </add:zeves>
         <add:z>
-        EQUATIONALPROOF predicate:p1
+        EQUATIONALPROOF predicate:p
         {:
            RESULT = null;
         :}
         |
-        NUMBEREDPROOF predicate:p1
+        NUMBEREDPROOF predicate:p
         {:
            RESULT = null;
         :}

@@ -206,6 +206,10 @@ import net.sourceforge.czt.zeves.util.ZEvesString;
   //@SuppressWarnings("unused")
   </add:z> 
   private boolean inSchemaBox_ = false;
+  
+  <add:z>
+  private boolean inProof_ = false;
+  </add:z>
 
   <add:zeves>
   /**
@@ -975,6 +979,9 @@ USAGE   = "axiom" | "frule" | "grule" | "rule"
         }
   "\\begin" {IGNORE}* "{" / "equationalproof}"
   		{
+  			<add:z>
+  			inProof_ = true;
+  			</add:z>
   			yybegin(ZED);
   			assert ! addSpace_;
   			begin("equationalproof");
@@ -983,6 +990,9 @@ USAGE   = "axiom" | "frule" | "grule" | "rule"
   		}
   "\\begin" {IGNORE}* "{" / "numberedproof}"
   		{
+  			<add:z>
+  			inProof_ = true;
+  			</add:z>
   			yybegin(ZED);
   			assert ! addSpace_;
   			begin("numberedproof");
@@ -1290,7 +1300,18 @@ USAGE   = "axiom" | "frule" | "grule" | "rule"
           result += ZString.SPACE;
           return result(result);
         }
-  "\\\\" | "\\also" | "\\znewpage" <add:circus> | "\\zbreak" </add:circus>
+  "\\\\" 
+  		{
+  		  <add:z>
+  		 	if(inProof_ == false) { 
+  		  </add:z>
+          		String result = addSpace();
+          		return result(result + ZString.NLCHAR);
+          <add:z>
+          	}
+          </add:z>
+  		}
+  "\\also" | "\\znewpage" <add:circus> | "\\zbreak" </add:circus>
         {
           String result = addSpace();
           return result(result + ZString.NLCHAR);
@@ -1321,6 +1342,9 @@ USAGE   = "axiom" | "frule" | "grule" | "rule"
         }
   "\\end" {IGNORE}* "{equationalproof}"
         {
+          <add:z>
+          inProof_ = false;
+          </add:z>
           end("equationalproof");
           yybegin(YYINITIAL);
           String result = addSpace() + ZString.END;
@@ -1328,6 +1352,9 @@ USAGE   = "axiom" | "frule" | "grule" | "rule"
         }
   "\\end" {IGNORE}* "{numberedproof}"
         {
+          <add:z>
+          inProof_ = false;
+          </add:z>
           end("numberedproof");
           yybegin(YYINITIAL);
           String result = addSpace() + ZString.END;
@@ -1751,6 +1778,7 @@ USAGE   = "axiom" | "frule" | "grule" | "rule"
   		}
   "&amp;" {JUSTIFICATION} "\\\\" {WS}* {DIGIT}+ {WS}* "&amp;"
   		{
+  			System.out.println("Justification in numbered proof");
   			String result = addSpace();
   			return result(result + ZString.SEMI);
   		}
