@@ -2208,4 +2208,19 @@ more detail.
       </xs:extension>
     </xs:complexContent>
   </xs:complexType>
+
+  <xs:complexType name="ProofPara">
+  	<xs:complexContent>
+  		<xs:extension base="Z:Para">
+        	<xs:sequence>
+          		<xs:element ref="Z:Pred"/>
+        	</xs:sequence>
+  		</xs:extension>
+  	</xs:complexContent>
+  </xs:complexType>
+
+    <xs:element name="ProofPara" type="Z:ProofPara" substitutionGroup="Z:Para">
+    	<xs:annotation>
+    		<xs:documentation>A Proof Paragrahp</xs:documentation>
+    	</xs:annotation></xs:element>
 </xs:schema>

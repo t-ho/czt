@@ -17,6 +17,7 @@
 <!ENTITY % Z-FreeType "%Z-prefix;%Z-colon;FreeType">
 <!ENTITY % Z-Branch "%Z-prefix;%Z-colon;Branch">
 <!ENTITY % Z-ConjPara "%Z-prefix;%Z-colon;ConjPara">
+<!ENTITY % Z-ProofPara "%Z-prefix;%Z-colon;ProofPara">
 <!ENTITY % Z-OptempPara "%Z-prefix;%Z-colon;OptempPara">
 <!ENTITY % Z-Cat "%Z-prefix;%Z-colon;Cat">
 <!ENTITY % Z-Assoc "%Z-prefix;%Z-colon;Assoc">
@@ -88,6 +89,7 @@
 <!ENTITY % Z-FreeTypeAnns "%Z-FreeType;Anns">
 <!ENTITY % Z-BranchAnns "%Z-Branch;Anns">
 <!ENTITY % Z-ConjParaAnns "%Z-ConjPara;Anns">
+<!ENTITY % Z-ProofParaAnns "%Z-ProofPara;Anns">
 <!ENTITY % Z-OptempParaAnns "%Z-OptempPara;Anns">
 <!ENTITY % Z-ExprPredAnns "%Z-ExprPred;Anns">
 <!ENTITY % Z-NegPredAnns "%Z-NegPred;Anns">
@@ -127,7 +129,7 @@
 <!ENTITY % Z-DeclNameAnns "%Z-DeclName;Anns">
 <!ENTITY % Z-RefNameAnns "%Z-RefName;Anns">
 <!-- Alternative abbreviations -->
-<!ENTITY % Z-Para "(%Z-GivenPara; | %Z-AxPara; | %Z-FreePara; |
+<!ENTITY % Z-Para "(%Z-GivenPara; | %Z-AxPara; | %Z-FreePara; | %Z-ProofPara; |
 		    %Z-ConjPara; | %Z-OptempPara; | %Z-NarrPara;)">
 <!ENTITY % Z-Pred "(%Z-ExprPred; | %Z-NegPred; | %Z-LogPred; | %Z-QntPred; |
 		    %Z-MemPred; | %Z-FalsePred; | %Z-TruePred;)">
@@ -159,6 +161,7 @@
 <!ELEMENT %Z-FreeType; ((%Z-DeclName;, (%Z-Branch;)+, (%Z-FreeTypeAnns;)?) | (%Z-PCDATA;))>
 <!ELEMENT %Z-Branch; ((%Z-DeclName;, (%Z-Expr;)?, (%Z-BranchAnns;)?) | (%Z-PCDATA;))>
 <!ELEMENT %Z-ConjPara; (((%Z-DeclName;)*, %Z-Pred;, (%Z-ConjParaAnns;)?) | (%Z-PCDATA;))>
+<!ELEMENT %Z-ProofPara; ((%Z-Pred;, (%Z-ProofParaAnns;)?) | (%Z-PCDATA;))>
 <!ELEMENT %Z-OptempPara; ((%Z-Numeral;, %Z-Template;, (%Z-OptempParaAnns;)?) | (%Z-PCDATA;))>
 <!ATTLIST %Z-OptempPara;
 	%Z-Cat; (Relation | Function | Generic) #REQUIRED
@@ -251,6 +254,7 @@
 <!ELEMENT %Z-FreeTypeAnns; EMPTY>
 <!ELEMENT %Z-BranchAnns; EMPTY>
 <!ELEMENT %Z-ConjParaAnns; (%Z-Signature;)>
+<!ELEMENT %Z-ProofParaAnns; (%Z-Signature;)>
 <!ELEMENT %Z-OptempParaAnns; (%Z-Signature;)>
 <!ELEMENT %Z-ExprPredAnns; EMPTY>
 <!ELEMENT %Z-NegPredAnns; EMPTY>

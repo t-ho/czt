@@ -4042,12 +4042,12 @@ unboxedParagraphItem ::=
         <add:z>
         EQUATIONALPROOF predicate:p
         {:
-           RESULT = null;
+           RESULT = factory_.createProofPara(p);
         :}
         |
         NUMBEREDPROOF predicate:p
         {:
-           RESULT = null;
+           RESULT = factory_.createProofPara(p);
         :}
         |
         </add:z>

@@ -43,6 +43,7 @@ public class ZGetNameVisitor
              ZFreetypeListVisitor<String>,
              ZSchTextVisitor<String>,
              ConjParaVisitor<String>,
+             ProofParaVisitor<String>,
              ZSectVisitor<String>
 {
   private static final String LIST_SEPARATOR = ", ";
@@ -143,4 +144,10 @@ public class ZGetNameVisitor
   {
     return zSect.getName();
   }
+
+@Override
+public String visitProofPara(ProofPara proofPara) {
+	// TODO Auto-generated method stub
+    return String.valueOf("ProofPara");
+}
 }

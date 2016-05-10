@@ -37,6 +37,7 @@ public class ParaChecker
              FreeParaVisitor<Signature>,
              FreetypeVisitor<Signature>,
              ConjParaVisitor<Signature>,
+             ProofParaVisitor<Signature>,
              ZSchTextVisitor<Signature>,
              ParaVisitor<Signature>
 {
@@ -330,4 +331,34 @@ public class ParaChecker
 
     return signature;
   }
+
+@Override
+public Signature visitProofPara(ProofPara proofPara) {
+	// TODO
+    //enter a new variable scope
+    typeEnv().enterScope();
+
+    //visit the predicate
+    Pred pred = proofPara.getPred();
+    UResult solved = pred.accept(predChecker());
+
+    //if the are unsolved unifications in this predicate,
+    //visit it again
+    if (solved == PARTIAL) {
+      pred.accept(predChecker());
+    }
+
+    //the annotation for a proof paragraph is an empty signature
+    //unless it has a name, in which case a global name is added with 
+    //an empty type. this is important to avoid duplicated theorem names    
+    Signature signature = factory().createSignature();
+    
+    // add the (possibly non empty) signature
+    addSignatureAnn(proofPara, signature);
+
+    //exit the variable scope
+    typeEnv().exitScope();
+
+    return signature;
+}
 }

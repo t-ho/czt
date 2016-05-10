@@ -1365,4 +1365,14 @@ private String printOperator(OperatorName op, Object arguments)
     implements Utils
   {
   }
+
+@Override
+public Object visitProofPara(ProofPara proofPara) {
+	// TODO
+    print(ZToken.ZED);
+    print(ZKeyword.THEOREM);
+    visit(proofPara.getPred());
+    print(ZToken.END);
+	return null;
+}
 }

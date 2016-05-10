@@ -64,6 +64,7 @@ import net.sourceforge.czt.z.ast.OutStroke;
 import net.sourceforge.czt.z.ast.Parent;
 import net.sourceforge.czt.z.ast.PowerType;
 import net.sourceforge.czt.z.ast.Pred;
+import net.sourceforge.czt.z.ast.ProofPara;
 import net.sourceforge.czt.z.ast.SchExpr;
 import net.sourceforge.czt.z.ast.SchemaType;
 import net.sourceforge.czt.z.ast.SectTypeEnvAnn;
@@ -90,6 +91,7 @@ import net.sourceforge.czt.z.visitor.GivenParaVisitor;
 import net.sourceforge.czt.z.visitor.LatexMarkupParaVisitor;
 import net.sourceforge.czt.z.visitor.NarrParaVisitor;
 import net.sourceforge.czt.z.visitor.OptempParaVisitor;
+import net.sourceforge.czt.z.visitor.ProofParaVisitor;
 import net.sourceforge.czt.z.visitor.UnparsedParaVisitor;
 import net.sourceforge.czt.z.visitor.VarDeclVisitor;
 import net.sourceforge.czt.z.visitor.ZDeclListVisitor;
@@ -111,6 +113,7 @@ public class Z2B
              FreetypeVisitor<Object>,
              AxParaVisitor<Object>,
              ConjParaVisitor<Object>,
+             ProofParaVisitor<Object>,
              NarrParaVisitor<Object>,
              OptempParaVisitor<Object>,
              UnparsedParaVisitor<Object>,
@@ -608,4 +611,10 @@ public Object visitConstDecl(ConstDecl decl)
     }
     return null;
   }
+
+@Override
+public Object visitProofPara(ProofPara proofPara) {
+	// TODO 
+	return null;
+}
 }

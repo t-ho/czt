@@ -52,6 +52,7 @@ public enum ConcreteSyntaxSymbol
   OPDEF_PARA("Generic operator definition paragraph"),
   FREE_PARA("Free types paragraph"),
   CONJ_PARA("Conjecture paragraph"),
+  PROOF_PARA("Proof paragraph"),
   GENCONJ_PARA("Generic conjecture paragraph"),
   OPTEMP_PARA("Operator template paragraph"),
 

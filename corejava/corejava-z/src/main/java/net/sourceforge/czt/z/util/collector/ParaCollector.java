@@ -33,6 +33,7 @@ import net.sourceforge.czt.z.ast.GivenPara;
 import net.sourceforge.czt.z.ast.LatexMarkupPara;
 import net.sourceforge.czt.z.ast.NarrPara;
 import net.sourceforge.czt.z.ast.OptempPara;
+import net.sourceforge.czt.z.ast.ProofPara;
 import net.sourceforge.czt.z.ast.UnparsedPara;
 import net.sourceforge.czt.z.ast.ZSect;
 import net.sourceforge.czt.z.util.ZUtils;
@@ -43,6 +44,7 @@ import net.sourceforge.czt.z.visitor.GivenParaVisitor;
 import net.sourceforge.czt.z.visitor.LatexMarkupParaVisitor;
 import net.sourceforge.czt.z.visitor.NarrParaVisitor;
 import net.sourceforge.czt.z.visitor.OptempParaVisitor;
+import net.sourceforge.czt.z.visitor.ProofParaVisitor;
 import net.sourceforge.czt.z.visitor.UnparsedParaVisitor;
 
 /**
@@ -77,7 +79,7 @@ public class ParaCollector extends BaseCollector<ZSect> implements
         UnparsedParaVisitor<ZSect>,
         GivenParaVisitor<ZSect>, OptempParaVisitor<ZSect>,
         ConjParaVisitor<ZSect>, AxParaVisitor<ZSect>,
-        FreeParaVisitor<ZSect>
+        FreeParaVisitor<ZSect>, ProofParaVisitor<ZSect>
 {
 
   protected final List<NarrPara> fNarrPara;
@@ -86,6 +88,7 @@ public class ParaCollector extends BaseCollector<ZSect> implements
   protected final List<GivenPara> fGivenPara;
   protected final List<OptempPara> fOptempPara;
   protected final Map<String, ConjPara> fConjPara;
+  protected final Map<String, ProofPara> fProofPara;
   protected final List<AxDefElements> fAxPara;
   protected final Map<String, List<Branch>> fFreeTypes;
   protected final Map<String, SchemaElements> fSchemas;
@@ -101,6 +104,7 @@ public class ParaCollector extends BaseCollector<ZSect> implements
     fGivenPara = new ArrayList<GivenPara>();
     fOptempPara = new ArrayList<OptempPara>();
     fConjPara = new TreeMap<String, ConjPara>();
+    fProofPara = new TreeMap<String, ProofPara>();
     fAxPara = new ArrayList<AxDefElements>();
     // TODO: Change here to FreeTypeElements and include Expr collection!
     fFreeTypes = new TreeMap<String, List<Branch>>();
@@ -197,4 +201,11 @@ public class ParaCollector extends BaseCollector<ZSect> implements
     }
     return null;
   }
+
+@Override
+public ZSect visitProofPara(ProofPara proofPara) {
+	// TODO Auto-generated method stub
+    fProofPara.put("ProofPara", proofPara);
+    return null;
+}
 }

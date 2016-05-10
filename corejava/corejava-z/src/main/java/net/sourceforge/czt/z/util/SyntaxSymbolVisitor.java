@@ -97,6 +97,11 @@ public class SyntaxSymbolVisitor
     return ConcreteSyntaxSymbol.CONJ_PARA;
   }
 
+  @Override public ConcreteSyntaxSymbol visitProofPara(ProofPara proofPara)
+  {
+    return ConcreteSyntaxSymbol.PROOF_PARA;
+  }
+
   @Override public ConcreteSyntaxSymbol visitConstDecl(ConstDecl term)
   {
     return ConcreteSyntaxSymbol.CONST_DECL;
