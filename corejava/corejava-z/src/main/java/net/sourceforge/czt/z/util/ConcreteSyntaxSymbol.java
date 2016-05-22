@@ -64,6 +64,7 @@ public enum ConcreteSyntaxSymbol
   NL_AND_PRED("Newline conjunction predicate"),
   SEMI_AND_PRED("Semicolon conjunction predicate"),
   ALL_PRED("Universal quantification predicate"),
+  THEOREM_PROOF_PRED("Theorem with proof predicate"),
   EXI_PRED("Existential quantification predicate"),
   EXIONE_PRED("Unique existential quantification predicate"),
   IFF_PRED("Equivalence predicate"),
@@ -79,6 +80,7 @@ public enum ConcreteSyntaxSymbol
 
   EXPR("Expression"),
   ALL_EXPR("Schema universal quantification expression"),
+  THEOREM_PROOF_EXPR("Theorem with proof expression"),
   EXI_EXPR("Schema existential quantification expression"),
   EXIONE_EXPR("Schema unique existential quantification expression"),
   LAMBDA_EXPR("Function construction expression"),

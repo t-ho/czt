@@ -2223,4 +2223,8 @@ more detail.
     	<xs:annotation>
     		<xs:documentation>A Proof Paragrahp</xs:documentation>
     	</xs:annotation></xs:element>
+
+    <xs:element name="TheoremProofPred" type="Z:QntPred" substitutionGroup="Z:QntPred"></xs:element>
+
+    <xs:element name="TheoremProofExpr" type="Z:Qnt1Expr" substitutionGroup="Z:Qnt1Expr"></xs:element>
 </xs:schema>

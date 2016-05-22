@@ -8648,10 +8648,10 @@ term ::=
        	THEOREM:thm name:n optNL schemaText:st CONJECTURE_EXT term:t
        	{:
            if (t instanceof Expr) {
-             RESULT = factory_.createForallExpr(st, expr(t));
+             RESULT = factory_.createTheoremProofExpr(st, expr(t));
            }
            else {
-             RESULT = factory_.createForallPred(st, pred(t));
+             RESULT = factory_.createTheoremProofPred(st, pred(t));
            }
            addLocAnn(RESULT, getLocation(thm, t));
        	:} 

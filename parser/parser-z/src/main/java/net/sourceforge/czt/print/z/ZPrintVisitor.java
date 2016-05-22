@@ -1370,9 +1370,35 @@ private String printOperator(OperatorName op, Object arguments)
 public Object visitProofPara(ProofPara proofPara) {
 	// TODO
     print(ZToken.ZED);
-    print(ZKeyword.THEOREM);
+    print(ZKeyword.THEOREMWITHPROOF);
     visit(proofPara.getPred());
     print(ZToken.END);
+	return null;
+}
+
+@Override
+public Object visitTheoremProofExpr(TheoremProofExpr theoremProofExpr) {
+	// TODO
+    final boolean braces = theoremProofExpr.getAnn(ParenAnn.class) != null;
+    if (braces) print(ZToken.LPAREN);
+    print(ZKeyword.THEOREM);
+    visit(theoremProofExpr.getSchText());
+    print(ZKeyword.CONJECTURE_EXT);
+    visit(theoremProofExpr.getExpr());
+    if (braces) print(ZToken.RPAREN);
+    return null;
+}
+
+@Override
+public Object visitTheoremProofPred(TheoremProofPred theoremProofPred) {
+	// TODO
+    final boolean braces = theoremProofPred.getAnn(ParenAnn.class) != null;
+    if (braces) print(ZToken.LPAREN);
+    print(ZKeyword.THEOREM);
+    visit(theoremProofPred.getSchText());
+    print(ZKeyword.CONJECTURE_EXT);
+    visit(theoremProofPred.getPred());
+    if (braces) print(ZToken.RPAREN);
 	return null;
 }
 }

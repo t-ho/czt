@@ -539,4 +539,16 @@ public class SyntaxSymbolVisitor
     implements Utils
   {
   }
+
+@Override
+public ConcreteSyntaxSymbol visitTheoremProofExpr(TheoremProofExpr term) {
+	// TODO
+    return ConcreteSyntaxSymbol.THEOREM_PROOF_EXPR;
+}
+
+@Override
+public ConcreteSyntaxSymbol visitTheoremProofPred(TheoremProofPred term) {
+	// TODO
+    return ConcreteSyntaxSymbol.THEOREM_PROOF_PRED;
+}
 }

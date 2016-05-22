@@ -180,7 +180,7 @@
 >
 <!ELEMENT %Z-QntPred; ((%Z-Sch;, %Z-Pred;, (%Z-QntPredAnns;)?) | (%Z-PCDATA;))>
 <!ATTLIST %Z-QntPred;
-	%Z-Qnt; (Forall | Exists | Exists1) #REQUIRED
+	%Z-Qnt; (Forall | Exists | Exists1 | TheoremProof) #REQUIRED
 >
 <!ELEMENT %Z-MemPred; ((%Z-Expr;, %Z-Expr;, (%Z-MemPredAnns;)?) | (%Z-PCDATA;))>
 <!ATTLIST %Z-MemPred;
@@ -222,7 +222,7 @@
 >
 <!ELEMENT %Z-QntExpr; ((%Z-Sch;, (%Z-Expr;)?, (%Z-QntExprAnns;)?) | (%Z-PCDATA;))>
 <!ATTLIST %Z-QntExpr;
-	%Z-Qnt; (Forall | Exists | Exists1 | Lambda | Mu | Let | Set) #REQUIRED
+	%Z-Qnt; (Forall | Exists | Exists1 | Lambda | Mu | Let | Set | TheoremProof) #REQUIRED
 >
 <!ELEMENT %Z-CompExpr; ((%Z-Expr;, %Z-Expr;, (%Z-CompExprAnns;)?) | (%Z-PCDATA;))>
 <!ELEMENT %Z-PipeExpr; ((%Z-Expr;, %Z-Expr;, (%Z-PipeExprAnns;)?) | (%Z-PCDATA;))>
