@@ -209,6 +209,7 @@ import net.sourceforge.czt.zeves.util.ZEvesString;
   
   <add:z>
   private boolean inProof_ = false;
+  private boolean inTheoremWithProof_ = false;
   </add:z>
 
   <add:zeves>
@@ -691,6 +692,8 @@ import net.sourceforge.czt.zeves.util.ZEvesString;
     
     <add:z>
     PROOF,
+    THM_PROOF_NAME,
+    LEMMA_NAME,
     </add:z>
 
     <add:zeves>
@@ -959,6 +962,19 @@ USAGE   = "axiom" | "frule" | "grule" | "rule"
           return result(ZString.ZED);
           // leave the "theorem" to be treated as a name.
         }
+  <add:z>
+  "\\begin" {IGNORE}* "{" / "theoremwithproof}"
+        {
+          // CZT extension: pass theorem name into Unicode output.
+          yybegin(ZED);
+          assert ! addSpace_;
+          begin("theoremwithproof");
+          inTheoremWithProof_ = true;
+          braceStack_.push(BraceType.THM_PROOF_NAME);
+          return result(ZString.ZED);
+          // leave the "theoremwithproof" to be treated as a name.
+        }
+  </add:z>
 /*  "\\begin" {IGNORE}* "{theorem}" "{" {NAME} "}"
         {
           // The Z standard ignores the NAME part of \begin{theorem}
@@ -974,31 +990,9 @@ USAGE   = "axiom" | "frule" | "grule" | "rule"
           yybegin(ZED);
           assert ! addSpace_;
           begin("lemma");
-          braceStack_.push(BraceType.THM_NAME);
+          braceStack_.push(BraceType.LEMMA_NAME);
           return result(ZString.ZED);
         }
-  "\\begin" {IGNORE}* "{" / "equationalproof}"
-  		{
-  			<add:z>
-  			inProof_ = true;
-  			</add:z>
-  			yybegin(ZED);
-  			assert ! addSpace_;
-  			begin("equationalproof");
-  			braceStack_.push(BraceType.PROOF);
-  			return result(ZString.ZED);
-  		}
-  "\\begin" {IGNORE}* "{" / "numberedproof}"
-  		{
-  			<add:z>
-  			inProof_ = true;
-  			</add:z>
-  			yybegin(ZED);
-  			assert ! addSpace_;
-  			begin("numberedproof");
-  			braceStack_.push(BraceType.PROOF);
-  			return result(ZString.ZED);
-  		}
   </add:z>
 <add:pattern>
   "\\begin" {IGNORE}* "{zedjoker}" {IGNORE}* "{"
@@ -1323,15 +1317,37 @@ USAGE   = "axiom" | "frule" | "grule" | "rule"
 <add:oz>
           if (!nested_) {
 </add:oz>
-             yybegin(YYINITIAL);
+<add:z>
+		  if(inTheoremWithProof_ == false) {
+</add:z>
+ 	        yybegin(YYINITIAL);
+<add:z>
+		  }
+</add:z>
 <add:oz>
           }
 </add:oz>
           catchingThmName_ = false;
+<add:z>
+		  if(inTheoremWithProof_ == false) {
+</add:z>
           String result = addSpace() + ZString.END;
           return result(LatexSym.END, result);
+<add:z>
+		  } else {
+		  return result(ZString.SPACE);
+		  }
+</add:z>
         }
 <add:z>
+  "\\end" {IGNORE}* "{theoremwithproof}"
+  		{
+  		  end("theoremwithproof");
+  		  inTheoremWithProof_ = false;
+          yybegin(YYINITIAL);
+          String result = addSpace() + ZString.END;
+          return result(LatexSym.END, result);
+  		}
   "\\end" {IGNORE}* "{lemma}"
         {
           end("lemma");
@@ -1340,26 +1356,43 @@ USAGE   = "axiom" | "frule" | "grule" | "rule"
           String result = addSpace() + ZString.END;
           return result(LatexSym.END, result);
         }
-  "\\end" {IGNORE}* "{equationalproof}"
+  "\\begin" {IGNORE}* "{" / "theorem}"
         {
-          <add:z>
-          inProof_ = false;
-          </add:z>
-          end("equationalproof");
-          yybegin(YYINITIAL);
-          String result = addSpace() + ZString.END;
-          return result(LatexSym.END, result);
+          assert ! addSpace_;
+          begin("theorem");
+          braceStack_.push(BraceType.THM_NAME);
+          String result = addSpace();
+          return result(result);
+          // leave the "theorem" to be treated as a name.
+        }
+  "\\begin" {IGNORE}* "{equationalproof}"
+  		{
+  			begin("equationalproof");
+  			inProof_ = true;
+  			String result = addSpace();
+  			return result(result + ZString.AND);
+  		}
+  "\\end" {IGNORE}* "{equationalproof}"
+  		{
+  			end("equationalproof");
+  			inProof_ = false;
+  			String result = addSpace();
+  			return result(result);
+  		}
+  "\\begin" {IGNORE}* "{numberedproof}"
+        {
+          begin("numberedproof");
+          inProof_ = true;
+          String result = addSpace();
+          return result(result + ZString.AND);
         }
   "\\end" {IGNORE}* "{numberedproof}"
-        {
-          <add:z>
-          inProof_ = false;
-          </add:z>
-          end("numberedproof");
-          yybegin(YYINITIAL);
-          String result = addSpace() + ZString.END;
-          return result(LatexSym.END, result);
-        }
+  		{
+  			end("numberedproof");
+  			inProof_ = false;
+  			String result = addSpace();
+  			return result(result);
+  		}
 </add:z>
   "\\end" {IGNORE}* "{axdef}"
         {
@@ -1778,13 +1811,13 @@ USAGE   = "axiom" | "frule" | "grule" | "rule"
   		}
   "&amp;" {JUSTIFICATION} "\\\\" {WS}* {DIGIT}+ {WS}* "&amp;"
   		{
-  			System.out.println("Justification in numbered proof");
-  			String result = addSpace();
-  			return result(result + ZString.SEMI);
+  			//TODO: numberedproof
+  			String result = ZString.SPACE;
+  			return result(result + ZString.AND);
   		}
   "&amp;" {JUSTIFICATION} "\\\\"
   		{
-  			//TODO:
+  			//TODO: equationalproof
   			/* ignore this justification */
   		}
 </add:z>
@@ -1846,6 +1879,14 @@ USAGE   = "axiom" | "frule" | "grule" | "rule"
             result += ZString.SPACE;
           }
           <add:z>
+          else if (brace.equals(BraceType.THM_PROOF_NAME))
+          {
+            result += ZString.SPACE;
+          }
+          else if (brace.equals(BraceType.LEMMA_NAME))
+          {
+            result += ZString.SPACE;
+          }
           else if (brace.equals(BraceType.PROOF))
           {
             result += ZString.SPACE;

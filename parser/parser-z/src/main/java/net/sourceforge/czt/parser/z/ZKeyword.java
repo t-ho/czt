@@ -48,6 +48,7 @@ public enum ZKeyword
   THEN("then", NewlineCategory.BOTH),
   /** A CZT extension that allows named conjectures in Unicode. */
   THEOREM(ZString.THEOREM, NewlineCategory.NEITHER),
+  THEOREMWITHPROOF(ZString.THEOREMWITHPROOF, NewlineCategory.NEITHER),
   LEMMA(ZString.LEMMA, NewlineCategory.NEITHER),
   EQUATIONALPROOF(ZString.EQUATIONALPROOF, NewlineCategory.NEITHER),
   NUMBEREDPROOF(ZString.NUMBEREDPROOF, NewlineCategory.NEITHER),

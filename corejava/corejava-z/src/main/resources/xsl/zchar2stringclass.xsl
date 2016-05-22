@@ -66,6 +66,7 @@ public interface ZString
   String THEN = "then";
   String THEOREM = "theorem";
   String LEMMA = "lemma";
+  String THEOREMWITHPROOF = "theoremwithproof";
   String EQUATIONALPROOF = "equationalproof";
   String NUMBEREDPROOF = "numberedproof";
   String TRUE = "true";

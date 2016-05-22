@@ -2736,7 +2736,7 @@ terminal LocInfo
         DEFFREE, DEFEQUAL, EXIONE,
         END, AX, SCH, GENSCH, GENAX, ZED, THEOREM, 
        	<add:z>
-        LEMMA, EQUATIONALPROOF, NUMBEREDPROOF,
+        LEMMA, EQUATIONALPROOF, NUMBEREDPROOF, THEOREMWITHPROOF,
        	</add:z>	 
 
         //ZSTATE, ZSTINIT, ZSTFIN, ZASTATE, ZASTINIT, 
@@ -4040,12 +4040,7 @@ unboxedParagraphItem ::=
         //optZNote:znote
         </add:zeves>
         <add:z>
-        EQUATIONALPROOF predicate:p
-        {:
-           RESULT = factory_.createProofPara(p);
-        :}
-        |
-        NUMBEREDPROOF predicate:p
+        THEOREMWITHPROOF optNL predicate:p
         {:
            RESULT = factory_.createProofPara(p);
         :}
@@ -4144,15 +4139,6 @@ unboxedParagraphItem ::=
            RESULT = factory_.createConjPara(ofp, p);
            addLocAnn(RESULT, getLocation(getLocation(ofpleft, ofpright), getLocation(p)));
         :}
-        <add:z>
-        |
-        optFormalParameters:ofp CONJECTURE_EXT:c predicate:p
-        {:
-           // unnamed conjectures in Unicode, as in the Z standard.
-           RESULT = factory_.createConjPara(ofp, p);
-           addLocAnn(RESULT, getLocation(getLocation(ofpleft, ofpright), getLocation(p)));
-        :}
-        </add:z>
         |
         operatorTemplate:ot
         {:
@@ -4184,13 +4170,6 @@ conjecture ::=
         {:
           RESULT = true;
         :}
-		<add:z>
-		|
-        CONJECTURE_EXT:c
-        {:
-          RESULT = true;
-        :}
-		</add:z>
         <add:zeves>
         |
         // empty is fine in Z/EVES
@@ -7821,7 +7800,7 @@ schemaText ::=
            addLocAnn(RESULT, getLocation(odp));
         :}
         ;
-
+        
 axiomaticSchemaText ::=
         optDeclPart:odp BAR predicate:p
         {:
@@ -8665,6 +8644,19 @@ term ::=
            addLocAnn(RESULT, getLocation(i, fe));
         :}
         |
+        <add:z>
+       	THEOREM:thm name:n optNL schemaText:st CONJECTURE_EXT term:t
+       	{:
+           if (t instanceof Expr) {
+             RESULT = factory_.createForallExpr(st, expr(t));
+           }
+           else {
+             RESULT = factory_.createForallPred(st, pred(t));
+           }
+           addLocAnn(RESULT, getLocation(thm, t));
+       	:} 
+       	|
+        </add:z>
         /* (schema) universal quantification */
         ALL:all schemaText:st SPOT term:t
         {:
