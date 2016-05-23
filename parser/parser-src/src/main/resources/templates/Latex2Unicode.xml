@@ -965,7 +965,6 @@ USAGE   = "axiom" | "frule" | "grule" | "rule"
   <add:z>
   "\\begin" {IGNORE}* "{" / "theoremwithproof}"
         {
-          // CZT extension: pass theorem name into Unicode output.
           yybegin(ZED);
           assert ! addSpace_;
           begin("theoremwithproof");
@@ -1352,7 +1351,6 @@ USAGE   = "axiom" | "frule" | "grule" | "rule"
         {
           end("lemma");
           yybegin(YYINITIAL);
-          catchingThmName_ = false;
           String result = addSpace() + ZString.END;
           return result(LatexSym.END, result);
         }
@@ -1369,28 +1367,28 @@ USAGE   = "axiom" | "frule" | "grule" | "rule"
   		{
   			begin("equationalproof");
   			inProof_ = true;
-  			String result = addSpace();
+  			String result = ZString.SPACE;
   			return result(result + ZString.AND);
   		}
   "\\end" {IGNORE}* "{equationalproof}"
   		{
   			end("equationalproof");
   			inProof_ = false;
-  			String result = addSpace();
+  			String result = ZString.SPACE;
   			return result(result);
   		}
   "\\begin" {IGNORE}* "{numberedproof}"
         {
           begin("numberedproof");
           inProof_ = true;
-          String result = addSpace();
+          String result = ZString.SPACE;
           return result(result + ZString.AND);
         }
   "\\end" {IGNORE}* "{numberedproof}"
   		{
   			end("numberedproof");
   			inProof_ = false;
-  			String result = addSpace();
+  			String result = ZString.SPACE;
   			return result(result);
   		}
 </add:z>
